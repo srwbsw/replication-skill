@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://replication-skill.dev/schemas/routes.schema.json",
+  "title": "ReplicationRoutes",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "handlers"],
+  "properties": {
+    "schemaVersion": { "type": "integer", "const": 1 },
+    "handlers": {
+      "type": "object",
+      "additionalProperties": { "type": "string" },
+      "description": "goX handler name → target path (from source, not button labels)"
+    },
+    "parity": {
+      "type": "object",
+      "additionalProperties": { "type": "string" },
+      "description": "Named parity query suffixes (e.g. auth → ?design-parity=1)"
+    },
+    "retired": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["pattern", "status", "to", "reason"],
+        "properties": {
+          "pattern": { "type": "string" },
+          "status": { "type": "integer", "enum": [301, 302, 307, 308] },
+          "to": { "type": "string" },
+          "reason": { "type": "string" }
+        }
+      }
+    }
+  }
+}

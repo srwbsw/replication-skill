@@ -1,0 +1,10 @@
+{
+  "schemaVersion": 1,
+  "handlers": {
+    "goLogin": "/login",
+    "goDemo": "/demo",
+    "goTrial": "/trial"
+  },
+  "parity": {},
+  "retired": []
+}

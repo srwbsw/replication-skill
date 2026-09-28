@@ -1,0 +1,24 @@
+[
+  {
+    "slug": "home",
+    "label": "Home",
+    "designPath": "/design/home",
+    "livePath": "/",
+    "rootSelector": "#app-root",
+    "status": "in-scope",
+    "buildable": true
+  },
+  {
+    "slug": "pricing",
+    "designPath": "/design/pricing",
+    "livePath": "/pricing",
+    "status": "excluded",
+    "buildable": false
+  },
+  {
+    "slug": "contact-us",
+    "label": "Contact Us",
+    "designPath": "/design/contact",
+    "livePath": "/contact"
+  }
+]

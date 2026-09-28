@@ -1,0 +1,84 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://replication-skill.dev/schemas/catalog.schema.json",
+  "title": "ReplicationCatalog",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "adapter", "source", "screens", "closedWorld"],
+  "properties": {
+    "schemaVersion": { "type": "integer", "const": 2 },
+    "closedWorld": { "type": "boolean", "const": true },
+    "adapter": { "type": "string" },
+    "source": {
+      "type": "object",
+      "required": ["entry", "sha256"],
+      "properties": {
+        "entry": { "type": "string" },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "discoveredAt": { "type": "string" }
+      }
+    },
+    "discovery": {
+      "type": "object",
+      "properties": {
+        "defaultScreenEnum": { "type": "array", "items": { "type": "string" } },
+        "scIfConditionNames": { "type": "array", "items": { "type": "string" } },
+        "navigationHandlers": {
+          "type": "object",
+          "additionalProperties": { "type": "string" }
+        }
+      }
+    },
+    "screens": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "$ref": "#/$defs/screen" }
+    },
+    "excluded": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["pattern", "reason"],
+        "properties": {
+          "pattern": { "type": "string" },
+          "reason": { "type": "string" }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "screen": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slug", "designPath", "livePath", "buildable", "status"],
+      "properties": {
+        "slug": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "label": { "type": "string" },
+        "designPath": { "type": "string" },
+        "livePath": { "type": "string" },
+        "rootSelector": { "type": "string" },
+        "neutralizers": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "thresholds": {
+          "type": "object",
+          "properties": {
+            "ssim": { "type": "number", "minimum": 0, "maximum": 1 },
+            "viewports": { "type": "array", "items": { "type": "string" } }
+          }
+        },
+        "buildable": { "type": "boolean" },
+        "status": {
+          "type": "string",
+          "enum": ["in-scope", "excluded", "unbuildable-todo"]
+        },
+        "provenance": { "type": "string" },
+        "adapterMeta": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    }
+  }
+}
