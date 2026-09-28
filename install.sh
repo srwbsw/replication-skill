@@ -149,6 +149,31 @@ remove_runner_links() {
   rm -f "$HOME/bin/replicate" "$HOME/bin/replicate.js"
 }
 
+install_claude_plugin() {
+  # 1) Already registered marketplace
+  if claude plugin install "${PLUGIN}@${PLUGIN}" </dev/null 2>/dev/null; then return 0; fi
+  # 2) GitHub marketplace (works once default branch has .claude-plugin/)
+  claude plugin marketplace add "$REPO_SLUG" </dev/null 2>/dev/null || true
+  if claude plugin install "${PLUGIN}@${PLUGIN}" </dev/null 2>/dev/null; then return 0; fi
+  # 3) Local checkout / managed clone (pre-merge dev, curl|bash with --ref)
+  claude plugin marketplace add "$SRC" </dev/null 2>/dev/null || true
+  claude plugin install "${PLUGIN}@${PLUGIN}" </dev/null 2>/dev/null
+}
+
+install_codex_plugin() {
+  if codex plugin add "${PLUGIN}@${PLUGIN}" </dev/null 2>/dev/null; then return 0; fi
+  codex plugin marketplace add "$REPO_SLUG" </dev/null 2>/dev/null || true
+  if codex plugin add "${PLUGIN}@${PLUGIN}" </dev/null 2>/dev/null; then return 0; fi
+  codex plugin marketplace add "$SRC" </dev/null 2>/dev/null || true
+  codex plugin add "${PLUGIN}@${PLUGIN}" </dev/null 2>/dev/null
+}
+
+install_cmd_skill() {
+  # Multi-skill repo layout: skills/replication/SKILL.md
+  if cmd skills add "$REPO_SLUG" -g -f -s replication </dev/null 2>/dev/null; then return 0; fi
+  cmd skills add "${REPO_SLUG}@${REF}" -g -f -s replication </dev/null 2>/dev/null
+}
+
 # ─────────────────────────────── UNINSTALL ────────────────────────────────
 if [ "$UNINSTALL" -eq 1 ]; then
   echo "Uninstalling replication-skill…"
@@ -225,22 +250,20 @@ esac
 
 if want claude; then
   if have claude; then
-    claude plugin marketplace add "$REPO_SLUG" </dev/null 2>/dev/null || true
-    if claude plugin install "${PLUGIN}@${PLUGIN}" </dev/null 2>/dev/null; then
+    if install_claude_plugin; then
       note "claude (plugin)"
     else
-      skip "claude (install command failed)"
+      skip "claude (plugin install failed — try: claude plugin marketplace add \"\$SRC\" && claude plugin install ${PLUGIN}@${PLUGIN})"
     fi
   else skip "claude (CLI not found)"; fi
 fi
 
 if want codex; then
   if have codex; then
-    codex plugin marketplace add "$REPO_SLUG" </dev/null 2>/dev/null || true
-    if codex plugin add "${PLUGIN}@${PLUGIN}" </dev/null 2>/dev/null; then
+    if install_codex_plugin; then
       note "codex (plugin)"
     else
-      skip "codex (install command failed)"
+      skip "codex (plugin install failed — try: codex plugin marketplace add \"\$SRC\" && codex plugin add ${PLUGIN}@${PLUGIN})"
     fi
   else skip "codex (CLI not found)"; fi
 fi
@@ -310,10 +333,10 @@ fi
 
 if want cmd; then
   if have cmd; then
-    if cmd skills add "$REPO_SLUG" -g -f </dev/null 2>/dev/null; then
+    if install_cmd_skill; then
       note "cmd (skills)"
     else
-      skip "cmd (install command failed)"
+      skip "cmd (skills add failed — needs GitHub ref with skills/replication; try --ref=${REF})"
     fi
   else skip "cmd (CLI not found)"; fi
 fi
