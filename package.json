@@ -1,0 +1,38 @@
+{
+  "name": "replication-skill",
+  "version": "0.1.0",
+  "description": "Closed-world UI replication from exports, crawls, or route maps: catalog, freeze, verify, gate",
+  "type": "module",
+  "license": "MIT",
+  "bin": {
+    "replicate": "./bin/replicate.js"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "schemas",
+    "skills",
+    "SKILL.md",
+    "templates"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "replicate": "tsx src/cli.ts",
+    "test": "node --import tsx --test test/**/*.test.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "example:freeze": "node scripts/freeze-example-catalog.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "ajv": "^8.17.1",
+    "ajv-formats": "^3.0.1",
+    "playwright": "^1.55.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

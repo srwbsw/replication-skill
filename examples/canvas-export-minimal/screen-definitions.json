@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "screens": [
+    {
+      "slug": "home",
+      "label": "Home",
+      "sourceScreen": "home",
+      "sourceState": { "isHome": true },
+      "livePath": "/",
+      "referenceSubdir": ".",
+      "rootLocator": { "kind": "body" },
+      "buildable": true,
+      "status": "in-scope",
+      "thresholds": { "ssim": 0.98, "viewports": ["desktop", "mobile"] }
+    }
+  ]
+}

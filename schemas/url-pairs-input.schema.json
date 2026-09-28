@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://replication-skill.dev/schemas/url-pairs-input.schema.json",
+  "title": "UrlPairsInput",
+  "description": "A plain list of {slug, designPath, livePath} entries for the url-pairs adapter (config.source.entry points at a file matching this shape).",
+  "type": "array",
+  "minItems": 1,
+  "items": { "$ref": "#/$defs/entry" },
+  "$defs": {
+    "entry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["slug", "designPath", "livePath"],
+      "properties": {
+        "slug": { "type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$" },
+        "designPath": { "type": "string" },
+        "livePath": { "type": "string" },
+        "label": { "type": "string" },
+        "rootSelector": { "type": "string" },
+        "status": {
+          "type": "string",
+          "enum": ["in-scope", "excluded", "unbuildable-todo"]
+        },
+        "buildable": { "type": "boolean" }
+      }
+    }
+  }
+}

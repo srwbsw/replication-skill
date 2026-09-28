@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head><title>Minimal export</title></head>
+<body>
+<div sc-if="isHome">Home</div>
+<div sc-if="isLogin">Login</div>
+<script type="text/x-dc" data-dc-script data-props="{&quot;defaultScreen&quot;:{&quot;options&quot;:[&quot;home&quot;,&quot;login&quot;,&quot;demo&quot;]}}">
+// handlers
+const api = {
+  goLogin: () => this.go('login'),
+  goDemo: () => this.go('demo'),
+  goTrial: () => this.go('trial'),
+};
+</script>
+</body>
+</html>

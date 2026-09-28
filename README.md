@@ -1,0 +1,65 @@
+# replication-skill
+
+Closed-world UI replication for agents: **catalog → freeze → map → implement → verify → gate**.
+
+If a screen is not in `catalog.json`, it is **out of scope**. Discovery is closed and explicit: catalog-building may crawl a bounded, configured surface (`site-crawl`) or read a curated/hand-written list (`canvas-export`, `url-pairs`), but nothing outside `catalog.json` is ever touched afterward — agents never ad hoc crawl the live app during compare/verify to invent paths.
+
+Structure follows [second-agent-skill](https://github.com/srwbsw/second-agent-skill): **`bin/`** entry, **`skills/`** playbook + **`references/`**, **`AGENTS.md`** hierarchy, machine-readable **`REPLICATION_RESULT`** tail line.
+
+## Adapters
+
+| Adapter | Source | Status |
+|---------|--------|--------|
+| `canvas-export` | Single-file design-canvas export | implemented |
+| `site-crawl` | Live site or local dev server (Vite, Next.js, or anything else) — bounded same-origin BFS crawl from seed URL(s), no export file | implemented (discovery); `catalog` CLI wiring for its async build isn't done yet — see `skills/replication/references/troubleshooting.md` |
+| `url-pairs` | A flat `[{slug, designPath, livePath}]` JSON list you already have | implemented |
+| `router-migration` | Existing app's router table | planned |
+
+`compare` (DOM-tree structure + text + computed-style diffing — no SSIM/pixel comparison) and `surplus` (implementation routes not in the catalog) are adapter-agnostic: every adapter above produces the same generic catalog screen shape. Details: `skills/replication/references/adapters.md`.
+
+## Install
+
+```bash
+git clone <this-repo> replication-skill
+cd replication-skill
+pnpm install
+pnpm build
+./install.sh              # ~/.cursor/skills/replication + ~/.local/bin/replicate
+```
+
+## Quickstart
+
+```bash
+replicate init --adapter canvas-export --entry path/to/export \
+  --screen-definitions screen-definitions.json
+replicate catalog --freeze
+replicate catalog --check
+```
+
+Cloning a live site or dev server with no export file? `replicate init --adapter site-crawl --entry https://example.com` (or `--entry http://localhost:5173`), or hand-list the pages with `replicate init --adapter url-pairs --entry pairs.json` — see `skills/replication/SKILL.md` for the full walkthrough and the current `site-crawl` CLI-wiring caveat.
+
+## Repo map
+
+| Path | Role |
+|------|------|
+| `skills/replication/SKILL.md` | Agent golden path |
+| `skills/replication/references/` | Phases, adapters, output contract |
+| `bin/replicate.js` | PATH shim → `dist/cli.js` |
+| `src/` | CLI implementation |
+| `schemas/` | JSON Schema |
+| `examples/canvas-export-minimal/` | In-repo fixture demo |
+| `test/` | `node:test` suites |
+
+## Development
+
+```bash
+pnpm test
+pnpm typecheck
+pnpm replicate --help     # dev runner (tsx)
+```
+
+Read **`AGENTS.md`** before changing adapters or commands.
+
+## License
+
+MIT
