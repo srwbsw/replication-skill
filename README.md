@@ -20,12 +20,21 @@ Structure follows [second-agent-skill](https://github.com/srwbsw/second-agent-sk
 ## Install
 
 ```bash
-git clone <this-repo> replication-skill
-cd replication-skill
-pnpm install
-pnpm build
-./install.sh              # ~/.cursor/skills/replication + ~/.local/bin/replicate
+curl -fsSL https://raw.githubusercontent.com/srwbsw/replication-skill/main/install.sh | bash
 ```
+
+Auto-detects which agent CLIs you have (Claude Code, Codex, Cursor, opencode, Gemini, Qwen, Copilot, Antigravity, Kilo, Command Code), installs the plugin/skill/command adapter into each, clones to `~/.replication-skill`, builds the CLI, and symlinks `replicate` onto `PATH`. Idempotent; `install.sh --help` for `--only=`, `--ref=`, and `--uninstall`.
+
+Review `install.sh` before `curl | bash`; pin `--ref` to a tag or SHA you trust. The installer runs `pnpm`/`npm install` and `build` in the clone (package lifecycle scripts execute with your user permissions).
+
+Manual plugin install:
+
+```bash
+claude plugin marketplace add srwbsw/replication-skill && claude plugin install replication-skill@replication-skill
+codex plugin marketplace add srwbsw/replication-skill && codex plugin add replication-skill@replication-skill
+```
+
+From a git checkout: `pnpm install && pnpm build && ./install.sh`.
 
 ## Quickstart
 

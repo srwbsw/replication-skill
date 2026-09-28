@@ -1,0 +1,5 @@
+{
+  "name": "replication-skill",
+  "version": "0.1.0",
+  "description": "Closed-world UI replication — adds a /replication command that loads the replication skill and runs the replicate CLI (catalog → freeze → compare → gate)."
+}

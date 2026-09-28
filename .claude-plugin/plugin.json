@@ -1,0 +1,9 @@
+{
+  "name": "replication-skill",
+  "version": "0.1.0",
+  "description": "Closed-world UI replication — finite screen catalog, freeze reference markup, compare design vs implementation (DOM + styles), and gate on CLI exit codes. Works from design exports, bounded site crawls, or explicit URL pair lists.",
+  "author": {
+    "name": "Sirawit Bongsuwan",
+    "email": "main@srwbsw.com"
+  }
+}

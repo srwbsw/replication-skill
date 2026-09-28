@@ -38,17 +38,22 @@ pnpm example:freeze           # pin examples/canvas-export-minimal catalog
 
 ## Agent context files
 
-`AGENTS.md` is the canonical doc. Optional symlinks for other harnesses (same pattern as second-agent-skill):
+`AGENTS.md` is the canonical doc. Symlinks for other harnesses (same pattern as second-agent-skill):
 
-- `CLAUDE.md → AGENTS.md`
+- `CLAUDE.md`, `GEMINI.md`, `QWEN.md` → `AGENTS.md`
+- `skills/CLAUDE.md` → `skills/AGENTS.md`
 
-Edit only `AGENTS.md`; do not fork prose into harness-specific files.
+Edit only `AGENTS.md` / `skills/AGENTS.md`; do not fork prose into harness-specific files.
 
 ## Install for end users
 
 ```bash
-./install.sh                  # skill dir + replicate on PATH (see --help)
+curl -fsSL https://raw.githubusercontent.com/srwbsw/replication-skill/main/install.sh | bash
+# or from a checkout:
+./install.sh                  # all detected harnesses + replicate on PATH (see --help)
 ```
+
+Installs into Claude Code, Codex, Cursor, opencode, Gemini, Qwen, Copilot, Antigravity (agy), Kilo, and Command Code (cmd) when their CLIs are present — see `skills/AGENTS.md` for the host table.
 
 ## Versioning
 

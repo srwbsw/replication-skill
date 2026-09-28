@@ -36,8 +36,10 @@ Resolve the runner, run phases in order, read the result line:
 ```bash
 REPLICATE_SCRIPT="${REPLICATION_CLI:-$(command -v replicate || true)}"
 [ -x "$REPLICATE_SCRIPT" ] || REPLICATE_SCRIPT="$HOME/.local/bin/replicate"
-[ -x "$REPLICATE_SCRIPT" ] || REPLICATE_SCRIPT="$(printf '%s\n' "$HOME"/.claude/plugins/cache/replication-skill/replication-skill/*/bin/replicate.js 2>/dev/null | sort -V | tail -1)"
-[ -x "$REPLICATE_SCRIPT" ] || REPLICATE_SCRIPT="$(dirname "$0")/../../bin/replicate.js"
+[ -x "$REPLICATE_SCRIPT" ] || REPLICATE_SCRIPT="$HOME/bin/replicate"
+[ -x "$REPLICATE_SCRIPT" ] || REPLICATE_SCRIPT="$HOME/.replication-skill/bin/replicate.js"
+[ -x "$REPLICATE_SCRIPT" ] || REPLICATE_SCRIPT="$HOME/plugins/replication-skill/bin/replicate.js"
+[ -x "$REPLICATE_SCRIPT" ] || REPLICATE_SCRIPT="$(printf '%s\n' "$HOME"/.claude/plugins/cache/replication-skill/replication-skill/*/bin/replicate.js 2>/dev/null | grep -v '\*' | sort -V | tail -1)"
 [ -x "$REPLICATE_SCRIPT" ] || REPLICATE_SCRIPT="$PWD/bin/replicate.js"
 ```
 

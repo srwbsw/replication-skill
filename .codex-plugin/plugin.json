@@ -1,0 +1,36 @@
+{
+  "name": "replication-skill",
+  "version": "0.1.0",
+  "description": "Closed-world UI replication — finite screen catalog, freeze reference markup, compare design vs implementation, and surplus route checks via the replicate CLI.",
+  "author": {
+    "name": "Sirawit Bongsuwan",
+    "email": "main@srwbsw.com",
+    "url": "https://github.com/srwbsw"
+  },
+  "homepage": "https://github.com/srwbsw/replication-skill",
+  "repository": "https://github.com/srwbsw/replication-skill",
+  "license": "MIT",
+  "keywords": [
+    "ui",
+    "replication",
+    "parity",
+    "design",
+    "playwright",
+    "catalog"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Replication",
+    "shortDescription": "Closed-world UI replication and parity",
+    "longDescription": "Build a closed-world screen catalog, freeze references, and verify live routes against design with the replicate CLI.",
+    "developerName": "Sirawit Bongsuwan",
+    "category": "Productivity",
+    "capabilities": ["Interactive"],
+    "websiteURL": "https://github.com/srwbsw/replication-skill",
+    "defaultPrompt": [
+      "Replicate this UI with a closed-world catalog",
+      "Compare design vs implementation for catalog screens",
+      "Initialize replication from this export"
+    ]
+  }
+}
