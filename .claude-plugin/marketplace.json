@@ -1,0 +1,29 @@
+{
+  "name": "replication-skill",
+  "owner": {
+    "name": "Sirawit Bongsuwan",
+    "email": "main@srwbsw.com"
+  },
+  "metadata": {
+    "description": "Closed-world UI replication — catalog, freeze, compare, surplus, gate",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "replication-skill",
+      "source": "./",
+      "description": "Closed-world UI replication skill + replicate CLI",
+      "version": "0.1.0",
+      "category": "development",
+      "keywords": [
+        "ui",
+        "replication",
+        "parity",
+        "design-system",
+        "playwright",
+        "catalog",
+        "claude-code"
+      ]
+    }
+  ]
+}

@@ -18,7 +18,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "replicate": "tsx src/cli.ts",
-    "test": "node --import tsx --test test/**/*.test.ts",
+    "test": "node test/install-hosts.test.cjs && node --import tsx --test test/**/*.test.ts",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "example:freeze": "node scripts/freeze-example-catalog.mjs"
   },

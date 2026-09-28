@@ -1,0 +1,33 @@
+---
+description: Closed-world UI replication and parity via the replicate CLI — catalog, freeze, compare, surplus. Apply when replicating another app/site, cloning UI from a design export or bounded crawl, diffing two deployments, or verifying a finite screen catalog.
+globs:
+alwaysApply: false
+---
+
+# Replication (closed-world UI)
+
+When the user wants UI replication, a closed-world screen catalog, reference freeze, or design-vs-implementation parity, follow the **replication** workflow. Use the `replicate` CLI; never ad hoc crawl paths outside `catalog.json`.
+
+**Invariant:** if a screen is not in `catalog.json`, it is out of scope.
+
+## 1. Resolve the runner
+
+```bash
+REPLICATE_SCRIPT="${REPLICATION_CLI:-$(command -v replicate || true)}"
+[ -x "$REPLICATE_SCRIPT" ] || REPLICATE_SCRIPT="$HOME/.local/bin/replicate"
+[ -x "$REPLICATE_SCRIPT" ] || REPLICATE_SCRIPT="$HOME/bin/replicate"
+[ -x "$REPLICATE_SCRIPT" ] || REPLICATE_SCRIPT="$HOME/.replication-skill/bin/replicate.js"
+[ -x "$REPLICATE_SCRIPT" ] || REPLICATE_SCRIPT="$HOME/plugins/replication-skill/bin/replicate.js"
+[ -x "$REPLICATE_SCRIPT" ] || REPLICATE_SCRIPT="$(printf '%s\n' "$HOME"/.claude/plugins/cache/replication-skill/replication-skill/*/bin/replicate.js 2>/dev/null | grep -v '\*' | sort -V | tail -1)"
+[ -x "$REPLICATE_SCRIPT" ] || REPLICATE_SCRIPT="$PWD/bin/replicate.js"
+```
+
+If `$REPLICATE_SCRIPT` is missing or not executable, tell the user to install replication-skill (`curl -fsSL https://raw.githubusercontent.com/srwbsw/replication-skill/main/install.sh | bash`, then `pnpm build` in the clone), or set `REPLICATION_CLI=/abs/path/to/replicate.js`.
+
+## 2. Follow the skill golden path
+
+Read and execute **`skills/replication/SKILL.md`** from the replication-skill plugin/checkout (or `~/.cursor/skills/replication/SKILL.md`). Pick the adapter (`canvas-export`, `site-crawl`, `url-pairs`) from the user's source. Run phases in order; use `references/` for phases, adapters, parity, and troubleshooting.
+
+## 3. Results
+
+Stdout ends with `REPLICATION_RESULT: {…}` — parse the **last** line. Trust CLI exit codes over manual “looks fine”.
